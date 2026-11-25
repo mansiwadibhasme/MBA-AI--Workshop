@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vellum &amp; Nib — Artisan Stationery &amp; Bookbinding</title>
+  <meta name="description" content="Tactile, archival stationery inspired by Japanese paper goods and classic bookbinding. Fountain-pen friendly notebooks, solid brass pens, and bespoke desk sets." />
+
+  <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            alabaster: '#FAF8F5',
+            parchment: '#F2EFE9',
+            ink: '#1C1B1A',
+            terracotta: '#B85D43',
+            'terracotta-dark': '#9E4B33',
+            hairline: '#E2DDD5',
+            muted: '#6E6A64',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Tactile Paper Grain Overlay & Custom Scrollbar */
+    body {
+      background-color: #FAF8F5;
+      color: #1C1B1A;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .paper-grain {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    /* Subtle fade-in for filtered cards and modal content */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-up {
+      animation: fadeUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Hide scrollbar for clean horizontal tab scrolling on mobile */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="paper-grain selection:bg-terracotta/15 selection:text-ink">
+
+  <!-- =====================================================================
+       TOP ANNOUNCEMENT BAR
+  ====================================================================== -->
+  <div class="border-b border-hairline bg-parchment px-4 py-2 text-center text-xs tracking-widest uppercase text-muted">
+    Complimentary archival shipping on orders over $75 &nbsp;·&nbsp; <span class="text-ink font-medium">Autumn Kyoto Paper Harvest</span>
+  </div>
+
+  <!-- =====================================================================
+       STICKY NAVIGATION BAR
+  ====================================================================== -->
+  <header class="sticky top-0 z-40 border-b border-hairline bg-alabaster/95 backdrop-blur-md">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8" aria-label="Main Navigation">
+      <!-- Mobile Menu Trigger -->
+      <div class="flex items-center lg:hidden">
+        <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center rounded-sm p-2 text-ink hover:bg-parchment focus:outline-none focus:ring-2 focus:ring-terracotta" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation menu">
+          <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <!-- Desktop Anchor Links -->
+      <div class="hidden lg:flex lg:items-center lg:gap-8">
+        <a href="#shop" class="text-xs font-medium uppercase tracking-[0.16em] text-ink/80 transition-colors hover:text-terracotta">Shop</a>
+        <a href="#bundle-builder" class="text-xs font-medium uppercase tracking-[0.16em] text-ink/80 transition-colors hover:text-terracotta">Custom Sets</a>
+        <a href="#craft" class="text-xs font-medium uppercase tracking-[0.16em] text-ink/80 transition-colors hover:text-terracotta">Our Craft</a>
+      </div>
+
+      <!-- Brand Wordmark -->
+      <a href="#" class="group flex flex-col items-center text-center" aria-label="Vellum & Nib Home">
+        <span class="font-serif text-2xl font-medium tracking-tight text-ink sm:text-3xl">
+          Vellum <span class="italic font-normal text-terracotta">&amp;</span> Nib
+        </span>
+        <span class="text-[9px] uppercase tracking-[0.28em] text-muted transition-colors group-hover:text-ink">Atelier Paper Goods</span>
+      </a>
+
+      <!-- Right Utility Actions (Search & Bag) -->
+      <div class="flex items-center gap-3 sm:gap-5">
+        <button id="search-toggle-btn" type="button" class="inline-flex items-center gap-1.5 rounded-sm px-2 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-ink/80 transition-colors hover:bg-parchment hover:text-ink focus:outline-none focus:ring-2 focus:ring-terracotta" aria-expanded="false" aria-controls="search-drawer" aria-label="Toggle product search">
+          <i data-lucide="search" class="h-4 w-4"></i>
+          <span class="hidden sm:inline">Search</span>
+        </button>
+
+        <button id="cart-open-btn" type="button" class="relative inline-flex items-center gap-2 rounded-sm border border-hairline bg-parchment/70 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-ink transition-all hover:border-ink/40 hover:bg-parchment focus:outline-none focus:ring-2 focus:ring-terracotta" aria-label="Open shopping bag">
+          <i data-lucide="shopping-bag" class="h-4 w-4"></i>
+          <span class="hidden sm:inline">Bag</span>
+          <span id="cart-count-badge" class="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-terracotta px-1.5 text-[11px] font-semibold text-alabaster transition-transform">0</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Collapsible Search Bar -->
+    <div id="search-drawer" class="hidden border-t border-hairline bg-parchment/80 px-4 py-3 sm:px-6 lg:px-8">
+      <div class="mx-auto flex max-w-2xl items-center gap-3">
+        <i data-lucide="search" class="h-4 w-4 shrink-0 text-muted"></i>
+        <input id="search-input" type="search" placeholder="Search fountain pens, 120 GSM notebooks, brass clips..." class="w-full bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none" aria-label="Search stationery catalog" />
+        <button id="search-clear-btn" type="button" class="hidden text-xs uppercase tracking-wider text-muted hover:text-ink">Clear</button>
+        <button id="search-close-btn" type="button" class="rounded-sm p-1 text-muted hover:text-ink" aria-label="Close search bar">
+          <i data-lucide="x" class="h-4 w-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Hamburger Dropdown -->
+    <div id="mobile-menu" class="hidden border-t border-hairline bg-alabaster px-6 py-5 lg:hidden">
+      <div class="flex flex-col space-y-4">
+        <a href="#shop" class="mobile-nav-link font-serif text-xl text-ink hover:text-terracotta">Shop Collection</a>
+        <a href="#bundle-builder" class="mobile-nav-link font-serif text-xl text-ink hover:text-terracotta">Build a Desk Set</a>
+        <a href="#craft" class="mobile-nav-link font-serif text-xl text-ink hover:text-terracotta">Our Craft &amp; Mills</a>
+        <a href="#newsletter" class="mobile-nav-link font-serif text-xl text-ink hover:text-terracotta">Atelier Journal</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =====================================================================
+         HERO SECTION (Asymmetric Editorial Two-Column Layout)
+    ====================================================================== -->
+    <section class="relative overflow-hidden border-b border-hairline">
+      <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-12 lg:gap-16 lg:px-8 lg:py-24">
+        
+        <!-- Left Column: Editorial Copy & CTAs -->
+        <div class="lg:col-span-6 xl:col-span-6">
+          <div class="mb-6 inline-flex items-center gap-2.5 border border-hairline bg-parchment px-3 py-1.5">
+            <span class="h-1.5 w-1.5 rounded-full bg-terracotta"></span>
+            <span class="text-[11px] font-medium uppercase tracking-[0.2em] text-muted">Kyoto Paper · Solid Brass · Archival Ink</span>
+          </div>
+
+          <h1 class="font-serif text-5xl font-normal leading-[1.06] tracking-tight text-ink sm:text-6xl lg:text-[4.25rem]">
+            Quiet tools for <span class="italic text-terracotta">unhurried</span> thought.
+          </h1>
+
+          <p class="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+            Inspired by centuries-old Japanese papermaking and European Smyth-sewn bookbinding, Vellum &amp; Nib crafts tactile notebooks, turned brass instruments, and correspondence goods meant to outlast the season.
+          </p>
+
+          <div class="mt-9 flex flex-wrap items-center gap-4">
+            <a href="#shop" class="inline-flex items-center justify-center gap-2.5 rounded-sm bg-ink px-7 py-3.5 text-xs font-medium uppercase tracking-[0.18em] text-alabaster transition-all hover:bg-terracotta focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2 focus:ring-offset-alabaster">
+              <span>Explore Collection</span>
+              <i data-lucide="arrow-right" class="h-4 w-4"></i>
+            </a>
+            <a href="#bundle-builder" class="inline-flex items-center justify-center gap-2 rounded-sm border border-ink/25 bg-transparent px-7 py-3.5 text-xs font-medium uppercase tracking-[0.18em] text-ink transition-all hover:border-ink hover:bg-parchment focus:outline-none focus:ring-2 focus:ring-terracotta">
+              <i data-lucide="layers" class="h-4 w-4 text-terracotta"></i>
+              <span>Build a Set</span>
+            </a>
+          </div>
+
+          <!-- Editorial Paper Metric Strip -->
+          <div class="mt-12 grid grid-cols-3 gap-6 border-t border-hairline pt-7">
+            <div>
+              <p class="font-serif text-2xl font-medium text-ink">120 GSM</p>
+              <p class="mt-0.5 text-xs text-muted">Bleed-resistant stock</p>
+            </div>
+            <div>
+              <p class="font-serif text-2xl font-medium text-ink">180° Flat</p>
+              <p class="mt-0.5 text-xs text-muted">Exposed linen spine</p>
+            </div>
+            <div>
+              <p class="font-serif text-2xl font-medium text-ink">C360 Brass</p>
+              <p class="mt-0.5 text-xs text-muted">Unlacquered patina</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Lifestyle Photo + Floating Paper Spec Badge -->
+        <div class="relative lg:col-span-6 xl:col-span-6">
+          <div class="relative mx-auto max-w-lg lg:max-w-none">
+            <!-- Decorative offset frame -->
+            <div class="absolute -bottom-4 -right-4 hidden h-full w-full border border-hairline bg-parchment sm:block" aria-hidden="true"></div>
+
+            <div class="relative aspect-[4/5] overflow-hidden border border-hairline bg-parchment">
+              <img
+                src="https://images.unsplash.com/photo-1719563014708-85b38508ee52?auto=format&fit=crop&w=1400&q=85"
+                alt="Handwriting on warm archival textured stationery paper with an artisan pen"
+                class="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
+              />
+              <!-- Subtle warm vignette -->
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/25 via-transparent to-transparent"></div>
+            </div>
+
+            <!-- Floating Paper-Specification Badge -->
+            <div class="absolute bottom-5 left-5 right-5 sm:right-auto sm:max-w-xs border border-hairline bg-alabaster/95 p-4 backdrop-blur-sm shadow-sm">
+              <div class="flex items-start gap-3">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center border border-hairline bg-parchment text-terracotta">
+                  <i data-lucide="feather" class="h-4 w-4"></i>
+                </div>
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-terracotta">Paper Specification</p>
+                  <p class="mt-0.5 font-serif text-lg font-medium leading-snug text-ink">120 GSM Fountain-Pen Friendly</p>
+                  <p class="mt-1 text-xs text-muted">Cold-pressed Japanese vellum · Zero feathering</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         CATEGORY FILTER & PRODUCT GRID
+    ====================================================================== -->
+    <section id="shop" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div class="flex flex-col justify-between gap-6 border-b border-hairline pb-8 md:flex-row md:items-end">
+        <div>
+          <p class="text-xs font-medium uppercase tracking-[0.2em] text-terracotta">Curated Catalog</p>
+          <h2 class="mt-2 font-serif text-4xl font-normal tracking-tight text-ink sm:text-5xl">Instruments &amp; Paper Goods</h2>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar" role="tablist" aria-label="Product Categories">
+          <button type="button" data-category="All" role="tab" aria-selected="true" class="filter-tab whitespace-nowrap rounded-sm border border-ink bg-ink px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-alabaster transition-all">
+            All
+          </button>
+          <button type="button" data-category="Notebooks" role="tab" aria-selected="false" class="filter-tab whitespace-nowrap rounded-sm border border-hairline bg-parchment/60 px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-ink/80 transition-all hover:border-ink/40 hover:text-ink">
+            Notebooks
+          </button>
+          <button type="button" data-category="Writing Instruments" role="tab" aria-selected="false" class="filter-tab whitespace-nowrap rounded-sm border border-hairline bg-parchment/60 px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-ink/80 transition-all hover:border-ink/40 hover:text-ink">
+            Writing Instruments
+          </button>
+          <button type="button" data-category="Desk Accessories" role="tab" aria-selected="false" class="filter-tab whitespace-nowrap rounded-sm border border-hairline bg-parchment/60 px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-ink/80 transition-all hover:border-ink/40 hover:text-ink">
+            Desk Accessories
+          </button>
+          <button type="button" data-category="Paper & Cards" role="tab" aria-selected="false" class="filter-tab whitespace-nowrap rounded-sm border border-hairline bg-parchment/60 px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-ink/80 transition-all hover:border-ink/40 hover:text-ink">
+            Paper &amp; Cards
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Filter / Search Status Bar -->
+      <div id="catalog-status" class="mt-5 flex items-center justify-between text-xs text-muted">
+        <span id="product-count-label">Showing 10 artisan editions</span>
+        <button id="reset-filters-btn" type="button" class="hidden font-medium text-terracotta underline underline-offset-4 hover:text-terracotta-dark">Reset filters</button>
+      </div>
+
+      <!-- Product Grid (3-to-4 Columns) -->
+      <div id="product-grid" class="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <!-- Populated dynamically via JS -->
+      </div>
+
+      <!-- Empty Search State -->
+      <div id="empty-catalog-state" class="hidden border border-hairline bg-parchment/50 py-16 text-center">
+        <i data-lucide="book-open" class="mx-auto h-8 w-8 text-muted"></i>
+        <p class="mt-3 font-serif text-2xl text-ink">No stationery matches your inquiry.</p>
+        <p class="mt-1 text-sm text-muted">Try clearing your search or exploring another category.</p>
+        <button id="empty-reset-btn" type="button" class="mt-5 rounded-sm border border-ink px-5 py-2 text-xs font-medium uppercase tracking-[0.15em] text-ink hover:bg-ink hover:text-alabaster transition-colors">
+          View All Editions
+        </button>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         INTERACTIVE "BUILD YOUR DESK SET" BUNDLE BUILDER
+    ====================================================================== -->
+    <section id="bundle-builder" class="border-y border-hairline bg-parchment py-16 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="max-w-2xl">
+          <div class="inline-flex items-center gap-2 border border-hairline bg-alabaster px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-terracotta">
+            <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
+            <span>Save 15% Automatically</span>
+          </div>
+          <h2 class="mt-4 font-serif text-4xl font-normal tracking-tight text-ink sm:text-5xl">Build Your Desk Set</h2>
+          <p class="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+            Curate a cohesive writing ritual. Pair one thread-bound notebook, one precision writing instrument, and one desk accessory to unlock an automatic 15% atelier set discount.
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
+          
+          <!-- Left Configurator Steps (8 Columns) -->
+          <div class="space-y-8 lg:col-span-8">
+            <!-- Step Navigation Pills -->
+            <div class="grid grid-cols-3 gap-3 border-b border-hairline pb-5" role="tablist" aria-label="Bundle Builder Steps">
+              <button type="button" data-bundle-step="1" class="bundle-step-btn flex items-center gap-3 rounded-sm border border-ink bg-alabaster p-3 text-left transition-all">
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-alabaster">1</span>
+                <div class="min-w-0">
+                  <p class="text-[10px] uppercase tracking-[0.15em] text-muted">Step 01</p>
+                  <p class="truncate text-xs font-semibold text-ink">Notebook</p>
+                </div>
+              </button>
+
+              <button type="button" data-bundle-step="2" class="bundle-step-btn flex items-center gap-3 rounded-sm border border-hairline bg-alabaster/60 p-3 text-left transition-all hover:border-ink/40">
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-hairline bg-parchment text-[11px] font-semibold text-ink">2</span>
+                <div class="min-w-0">
+                  <p class="text-[10px] uppercase tracking-[0.15em] text-muted">Step 02</p>
+                  <p class="truncate text-xs font-semibold text-ink">Writing Pen</p>
+                </div>
+              </button>
+
+              <button type="button" data-bundle-step="3" class="bundle-step-btn flex items-center gap-3 rounded-sm border border-hairline bg-alabaster/60 p-3 text-left transition-all hover:border-ink/40">
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-hairline bg-parchment text-[11px] font-semibold text-ink">3</span>
+                <div class="min-w-0">
+                  <p class="text-[10px] uppercase tracking-[0.15em] text-muted">Step 03</p>
+                  <p class="truncate text-xs font-semibold text-ink">Accessory</p>
+                </div>
+              </button>
+            </div>
+
+            <!-- Step Options Container -->
+            <div id="bundle-options-container">
+              <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Step Prev / Next Controls -->
+            <div class="flex items-center justify-between pt-2">
+              <button id="bundle-prev-btn" type="button" class="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em] text-muted hover:text-ink disabled:opacity-30" disabled>
+                <i data-lucide="arrow-left" class="h-4 w-4"></i>
+                <span>Previous Step</span>
+              </button>
+              <button id="bundle-next-btn" type="button" class="inline-flex items-center gap-2 rounded-sm border border-ink bg-alabaster px-5 py-2.5 text-xs font-medium uppercase tracking-[0.15em] text-ink hover:bg-ink hover:text-alabaster transition-colors">
+                <span>Next Step</span>
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Real-Time Visual Preview & Pricing Summary (4 Columns) -->
+          <aside class="lg:sticky lg:top-24 lg:col-span-4">
+            <div class="border border-hairline bg-alabaster p-6 shadow-sm">
+              <div class="flex items-center justify-between border-b border-hairline pb-4">
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-terracotta">Your Composition</p>
+                  <h3 class="font-serif text-2xl font-medium text-ink">Bespoke Desk Set</h3>
+                </div>
+                <span class="rounded-sm bg-terracotta/10 px-2.5 py-1 text-[11px] font-semibold text-terracotta">-15% Set</span>
+              </div>
+
+              <!-- 3 Selected Slots Visual Summary -->
+              <div id="bundle-summary-slots" class="divide-y divide-hairline py-2">
+                <!-- Populated dynamically via JS -->
+              </div>
+
+              <!-- Price Breakdown -->
+              <div class="mt-4 space-y-2 border-t border-hairline pt-4 text-sm">
+                <div class="flex justify-between text-muted">
+                  <span>Individual Value</span>
+                  <span id="bundle-original-price" class="line-through">$0.00</span>
+                </div>
+                <div class="flex justify-between text-terracotta">
+                  <span>15% Set Savings</span>
+                  <span id="bundle-discount-amount">-$0.00</span>
+                </div>
+                <div class="flex items-baseline justify-between pt-2 text-ink">
+                  <span class="text-xs font-semibold uppercase tracking-[0.15em]">Set Total</span>
+                  <span id="bundle-final-price" class="font-serif text-3xl font-medium">$0.00</span>
+                </div>
+              </div>
+
+              <button id="add-bundle-btn" type="button" class="mt-6 flex w-full items-center justify-center gap-2 rounded-sm bg-terracotta px-6 py-3.5 text-xs font-medium uppercase tracking-[0.18em] text-alabaster transition-all hover:bg-terracotta-dark focus:outline-none focus:ring-2 focus:ring-terracotta focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                <i data-lucide="shopping-bag" class="h-4 w-4"></i>
+                <span>Add Custom Bundle to Bag</span>
+              </button>
+              <p id="bundle-helper-note" class="mt-3 text-center text-[11px] text-muted">
+                Packaged in a linen-wrapped archival gift box.
+              </p>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         CRAFTSMANSHIP / EDITORIAL SPLIT-SCREEN FEATURE
+    ====================================================================== -->
+    <section id="craft" class="border-b border-hairline">
+      <div class="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-12">
+        <!-- Left Split Image -->
+        <div class="relative min-h-[380px] border-b border-hairline bg-parchment lg:col-span-6 lg:min-h-[620px] lg:border-b-0 lg:border-r">
+          <img
+            src="https://images.unsplash.com/photo-1775129667575-0047abd246d3?auto=format&fit=crop&w=1200&q=85"
+            alt="Archival letters, wax-sealed correspondence, and hand-bound journal on wooden desk"
+            class="h-full w-full object-cover object-center"
+          />
+          <div class="absolute bottom-6 left-6 border border-hairline bg-alabaster/95 px-4 py-3 backdrop-blur-sm">
+            <p class="text-[10px] uppercase tracking-[0.2em] text-terracotta">Est. Kyoto &amp; Portland</p>
+            <p class="font-serif text-lg italic text-ink">“Made slowly, to hold what lasts.”</p>
+          </div>
+        </div>
+
+        <!-- Right Split Editorial Pillars -->
+        <div class="flex flex-col justify-center px-6 py-14 sm:px-12 lg:col-span-6 lg:px-16 lg:py-20">
+          <p class="text-xs font-medium uppercase tracking-[0.2em] text-terracotta">Our Craft &amp; Materials</p>
+          <h2 class="mt-3 font-serif text-4xl font-normal leading-tight text-ink sm:text-5xl">
+            Honest fibers, archival sizing, and unlacquered brass.
+          </h2>
+          <p class="mt-5 text-sm leading-relaxed text-muted sm:text-base">
+            Every sheet we bind and every barrel we turn respects the physical dialogue between hand, ink, and paper. We partner directly with family-run mills in Echizen and small-batch machine shops in Nagano.
+          </p>
+
+          <div class="mt-10 space-y-7 border-t border-hairline pt-8">
+            <div class="flex gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center border border-hairline bg-parchment text-terracotta">
+                <i data-lucide="trees" class="h-5 w-5"></i>
+              </div>
+              <div>
+                <h3 class="font-serif text-xl font-medium text-ink">01. Sustainable Forestry &amp; Kozo Fiber</h3>
+                <p class="mt-1 text-sm leading-relaxed text-muted">
+                  FSC-certified Nordic wood pulp blended with regenerative Japanese mulberry (<em>kozo</em>) and cotton linters for supple tear strength.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center border border-hairline bg-parchment text-terracotta">
+                <i data-lucide="droplets" class="h-5 w-5"></i>
+              </div>
+              <div>
+                <h3 class="font-serif text-xl font-medium text-ink">02. Acid-Free Paper Milling</h3>
+                <p class="mt-1 text-sm leading-relaxed text-muted">
+                  Neutral-pH internal sizing tested with broad wet fountain pen nibs—preserving ink sheen and shading for over a century without yellowing.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center border border-hairline bg-parchment text-terracotta">
+                <i data-lucide="compass" class="h-5 w-5"></i>
+              </div>
+              <div>
+                <h3 class="font-serif text-xl font-medium text-ink">03. Precision Brass Machining</h3>
+                <p class="mt-1 text-sm leading-relaxed text-muted">
+                  Lathe-turned from solid C36000 brass rod with micro-threaded caps. Left raw to record the quiet patina of your daily grip.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       FOOTER WITH NEWSLETTER VALIDATION
+  ====================================================================== -->
+  <footer id="newsletter" class="bg-parchment/80">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <!-- Brand & Newsletter -->
+        <div class="lg:col-span-5">
+          <a href="#" class="font-serif text-3xl font-medium tracking-tight text-ink">
+            Vellum <span class="italic font-normal text-terracotta">&amp;</span> Nib
+          </a>
+          <p class="mt-3 max-w-sm text-sm leading-relaxed text-muted">
+            Receive dispatches on limited paper harvests, seasonal ink formulations, and bookbinding workshops.
+          </p>
+
+          <form id="newsletter-form" class="mt-6 max-w-md" novalidate>
+            <label for="newsletter-email" class="sr-only">Email address</label>
+            <div class="flex flex-col gap-2 sm:flex-row">
+              <input
+                id="newsletter-email"
+                type="email"
+                required
+                placeholder="your.name@atelier.com"
+                class="flex-1 rounded-sm border border-hairline bg-alabaster px-4 py-3 text-sm text-ink placeholder:text-muted/70 focus:border-ink focus:outline-none"
+              />
+              <button type="submit" class="rounded-sm bg-ink px-6 py-3 text-xs font-medium uppercase tracking-[0.16em] text-alabaster transition-colors hover:bg-terracotta focus:outline-none focus:ring-2 focus:ring-terracotta">
+                Subscribe
+              </button>
+            </div>
+            <p id="newsletter-feedback" class="mt-2.5 min-h-[18px] text-xs" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-7">
+          <div>
+            <h4 class="text-xs font-semibold uppercase tracking-[0.18em] text-ink">Collection</h4>
+            <ul class="mt-4 space-y-2.5 text-sm text-muted">
+              <li><a href="#shop" data-footer-cat="Notebooks" class="footer-cat-link hover:text-terracotta transition-colors">Thread-Bound Notebooks</a></li>
+              <li><a href="#shop" data-footer-cat="Writing Instruments" class="footer-cat-link hover:text-terracotta transition-colors">Fountain &amp; Brass Pens</a></li>
+              <li><a href="#shop" data-footer-cat="Desk Accessories" class="footer-cat-link hover:text-terracotta transition-colors">Inkwells &amp; Brass Clips</a></li>
+              <li><a href="#shop" data-footer-cat="Paper & Cards" class="footer-cat-link hover:text-terracotta transition-colors">Correspondence Cards</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-semibold uppercase tracking-[0.18em] text-ink">Atelier</h4>
+            <ul class="mt-4 space-y-2.5 text-sm text-muted">
+              <li><a href="#bundle-builder" class="hover:text-terracotta transition-colors">Desk Set Configurator</a></li>
+              <li><a href="#craft" class="hover:text-terracotta transition-colors">Paper Mills &amp; GSM Guide</a></li>
+              <li><a href="#craft" class="hover:text-terracotta transition-colors">Fountain Pen Care</a></li>
+              <li><a href="#newsletter" class="hover:text-terracotta transition-colors">Custom Monogramming</a></li>
+            </ul>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <h4 class="text-xs font-semibold uppercase tracking-[0.18em] text-ink">Flagship Studio</h4>
+            <address class="mt-4 space-y-2 text-sm not-italic leading-relaxed text-muted">
+              <p>412 NW Couch St, Suite 2B<br />Portland, OR 97209</p>
+              <p>Kyoto Paper Annex:<br />Nakagyo Ward, Kyoto</p>
+              <p class="pt-1 text-xs text-ink/80">Tue – Sun · 10:00 – 18:00</p>
+            </address>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-hairline pt-8 text-xs text-muted sm:flex-row">
+        <p>&copy; <span id="current-year">2026</span> Vellum &amp; Nib Stationery Co. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <span>Archival Acid-Free Standard</span>
+          <span>·</span>
+          <span>FSC-Certified Mills</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       QUICK-VIEW PRODUCT MODAL
+  ====================================================================== -->
+  <div id="product-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <!-- Backdrop -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-ink/45 backdrop-blur-xs transition-opacity"></div>
+
+    <!-- Modal Panel -->
+    <div class="relative z-10 max-h-[90vh] w-full max-w-3xl overflow-y-auto border border-hairline bg-alabaster shadow-2xl animate-fade-up">
+      <button id="modal-close-btn" type="button" class="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-sm border border-hairline bg-alabaster/90 text-ink hover:bg-parchment focus:outline-none focus:ring-2 focus:ring-terracotta" aria-label="Close product details">
+        <i data-lucide="x" class="h-4 w-4"></i>
+      </button>
+
+      <div class="grid grid-cols-1 md:grid-cols-12">
+        <!-- Modal Image -->
+        <div class="aspect-square bg-parchment md:col-span-6 md:aspect-auto">
+          <img id="modal-img" src="" alt="" class="h-full w-full object-cover" />
+        </div>
+
+        <!-- Modal Details & Specs -->
+        <div class="flex flex-col justify-between p-6 sm:p-8 md:col-span-6">
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="modal-category" class="text-[10px] font-semibold uppercase tracking-[0.2em] text-terracotta">Category</span>
+              <span id="modal-tag" class="hidden rounded-sm bg-parchment px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-ink">Tag</span>
+            </div>
+
+            <h3 id="modal-title" class="mt-2 font-serif text-3xl font-medium leading-tight text-ink">Product Title</h3>
+            <p id="modal-price" class="mt-2 text-lg font-medium text-ink">$0.00</p>
+            <p id="modal-desc" class="mt-4 text-sm leading-relaxed text-muted">Description</p>
+
+            <!-- Paper & Material Specifications Grid -->
+            <div class="mt-6 border-t border-hairline pt-4">
+              <p class="mb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-ink">Technical Specifications</p>
+              <dl id="modal-specs" class="grid grid-cols-2 gap-x-4 gap-y-3 text-xs">
+                <!-- Populated dynamically -->
+              </dl>
+            </div>
+          </div>
+
+          <!-- Quantity & Add to Bag -->
+          <div class="mt-8 flex items-center gap-3 border-t border-hairline pt-6">
+            <div class="flex items-center border border-hairline bg-parchment/50">
+              <button id="modal-qty-dec" type="button" class="px-3 py-2.5 text-ink hover:bg-parchment" aria-label="Decrease quantity">
+                <i data-lucide="minus" class="h-3.5 w-3.5"></i>
+              </button>
+              <span id="modal-qty-val" class="w-9 text-center text-sm font-medium text-ink">1</span>
+              <button id="modal-qty-inc" type="button" class="px-3 py-2.5 text-ink hover:bg-parchment" aria-label="Increase quantity">
+                <i data-lucide="plus" class="h-3.5 w-3.5"></i>
+              </button>
+            </div>
+
+            <button id="modal-add-btn" type="button" class="flex-1 rounded-sm bg-ink px-5 py-3 text-xs font-medium uppercase tracking-[0.16em] text-alabaster transition-colors hover:bg-terracotta focus:outline-none focus:ring-2 focus:ring-terracotta">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE-OVER SHOPPING CART DRAWER
+  ====================================================================== -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
+    <!-- Backdrop -->
+    <div id="cart-backdrop" class="fixed inset-0 bg-ink/40 backdrop-blur-[2px] opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Drawer Panel -->
+    <div id="cart-panel" class="fixed inset-y-0 right-0 flex w-full max-w-md translate-x-full flex-col border-l border-hairline bg-alabaster shadow-2xl transition-transform duration-300 ease-out">
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between border-b border-hairline px-6 py-5">
+        <div>
+          <h2 id="cart-drawer-title" class="font-serif text-2xl font-medium text-ink">Your Writing Bag</h2>
+          <p id="cart-item-summary" class="text-xs text-muted">0 items selected</p>
+        </div>
+        <button id="cart-close-btn" type="button" class="rounded-sm p-2 text-muted hover:bg-parchment hover:text-ink focus:outline-none focus:ring-2 focus:ring-terracotta" aria-label="Close shopping bag">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+
+      <!-- Free Shipping Progress Bar ($75 Threshold) -->
+      <div class="border-b border-hairline bg-parchment/70 px-6 py-3.5">
+        <p id="shipping-progress-text" class="text-xs text-ink">Add <span class="font-semibold">$75.00</span> more for complimentary archival shipping.</p>
+        <div class="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-hairline">
+          <div id="shipping-progress-bar" class="h-full w-0 bg-terracotta transition-all duration-500"></div>
+        </div>
+      </div>
+
+      <!-- Cart Items List -->
+      <div id="cart-items-container" class="flex-1 overflow-y-auto px-6 py-4">
+        <!-- Populated dynamically via JS -->
+      </div>
+
+      <!-- Cart Empty State -->
+      <div id="cart-empty-state" class="hidden flex-1 flex-col items-center justify-center px-8 text-center">
+        <div class="flex h-14 w-14 items-center justify-center rounded-full border border-hairline bg-parchment text-muted">
+          <i data-lucide="shopping-bag" class="h-6 w-6"></i>
+        </div>
+        <h3 class="mt-4 font-serif text-2xl text-ink">Your bag is currently empty</h3>
+        <p class="mt-2 text-sm text-muted">Begin with a 120 GSM thread-bound notebook or compose a custom 3-piece desk set.</p>
+        <button id="cart-explore-btn" type="button" class="mt-6 rounded-sm border border-ink px-6 py-2.5 text-xs font-medium uppercase tracking-[0.16em] text-ink hover:bg-ink hover:text-alabaster transition-colors">
+          Browse Stationery
+        </button>
+      </div>
+
+      <!-- Cart Footer / Checkout -->
+      <div id="cart-footer" class="border-t border-hairline bg-parchment/50 px-6 py-5">
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between text-muted">
+            <span>Subtotal</span>
+            <span id="cart-subtotal" class="font-medium text-ink">$0.00</span>
+          </div>
+          <div class="flex justify-between text-muted">
+            <span>Archival Packaging &amp; Shipping</span>
+            <span id="cart-shipping-label" class="text-xs uppercase tracking-wider">$8.00</span>
+          </div>
+          <div class="flex items-baseline justify-between border-t border-hairline pt-3">
+            <span class="text-xs font-semibold uppercase tracking-[0.16em] text-ink">Estimated Total</span>
+            <span id="cart-total" class="font-serif text-2xl font-medium text-ink">$0.00</span>
+          </div>
+        </div>
+
+        <button id="checkout-btn" type="button" class="mt-5 flex w-full items-center justify-center gap-2 rounded-sm bg-ink px-6 py-3.5 text-xs font-medium uppercase tracking-[0.18em] text-alabaster transition-colors hover:bg-terracotta focus:outline-none focus:ring-2 focus:ring-terracotta">
+          <span>Proceed to Checkout</span>
+          <i data-lucide="arrow-right" class="h-4 w-4"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       TOAST NOTIFICATION CONTAINER
+  ====================================================================== -->
+  <div id="toast-container" class="pointer-events-none fixed bottom-5 right-5 z-[60] flex flex-col gap-2.5 sm:bottom-8 sm:right-8" aria-live="polite"></div>
+
+  <!-- =====================================================================
+       VANILLA JAVASCRIPT APPLICATION LOGIC
+  ====================================================================== -->
+  <script>
+    (() => {
+      'use strict';
+
+      /* -------------------------------------------------------------------
+         1. CURATED PRODUCT CATALOG DATA
+      -------------------------------------------------------------------- */
+      const PRODUCTS = [
+        {
+          id: 'nb-kyoto-a5',
+          title: 'Kyoto Thread-Bound A5 Journal',
+          category: 'Notebooks',
+          price: 34.00,
+          tag: 'Bestseller',
+          image: 'https://images.unsplash.com/photo-1761670835899-5a0248c7e7d8?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1653569746987-8c1c63b2ffe2?auto=format&fit=crop&w=900&q=80',
+          description: 'Smyth-sewn with waxed linen thread so every spread opens completely flat. Milled in Echizen for zero bleed-through with wet fountain pen inks.',
+          specs: {
+            'Paper Weight': '120 GSM Acid-Free',
+            'Ruling': '5mm Subtle Dot Grid',
+            'Dimensions': '148 × 210 mm (A5)',
+            'Pages': '192 Numbered Pages'
+          }
+        },
+        {
+          id: 'nb-archival-leather',
+          title: 'Saddle-Stitched Field Folio',
+          category: 'Notebooks',
+          price: 48.00,
+          tag: 'Atelier Choice',
+          image: 'https://images.unsplash.com/photo-1688158307264-c949b2d68ffe?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1672256019300-9589d730bedd?auto=format&fit=crop&w=900&q=80',
+          description: 'Vegetable-tanned Bridle cover housing two refillable cotton-rag inserts. Designed to soften and burnish over years of travel.',
+          specs: {
+            'Paper Weight': '110 GSM Cotton Blend',
+            'Ruling': 'Unruled / Blank',
+            'Dimensions': '130 × 210 mm',
+            'Binding': 'Refillable Twin Insert'
+          }
+        },
+        {
+          id: 'nb-linen-grid',
+          title: 'Bookcloth Hardcover Ledger',
+          category: 'Notebooks',
+          price: 38.00,
+          tag: 'New',
+          image: 'https://images.unsplash.com/photo-1743385779436-a6950c168fff?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1644030692728-6acd106c2d58?auto=format&fit=crop&w=900&q=80',
+          description: 'Wrapped in unbleached Japanese bookcloth with blind-debossed spine ribs and a woven bookmark ribbon.',
+          specs: {
+            'Paper Weight': '120 GSM Ivory Vellum',
+            'Ruling': '4mm Architectural Grid',
+            'Dimensions': '176 × 250 mm (B5)',
+            'Pages': '160 Pages'
+          }
+        },
+        {
+          id: 'pen-brass-fountain',
+          title: 'No. 04 Solid Brass Fountain Pen',
+          category: 'Writing Instruments',
+          price: 86.00,
+          tag: 'Bestseller',
+          image: 'https://images.unsplash.com/photo-1531087131490-07836ca4341d?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1473186505569-9c61870c11f9?auto=format&fit=crop&w=900&q=80',
+          description: 'Precision-turned from solid C36000 raw brass with balanced forward weighting and an iridium-tipped German steel nib.',
+          specs: {
+            'Material': 'Unlacquered C360 Brass',
+            'Nib Size': 'Fine (0.5mm) Steel',
+            'Dimensions': '138 mm Capped · 36 g',
+            'Filling': 'Converter & Cartridge'
+          }
+        },
+        {
+          id: 'pen-obsidian-nib',
+          title: 'Urushi Obsidian Fountain Pen',
+          category: 'Writing Instruments',
+          price: 112.00,
+          tag: 'Limited',
+          image: 'https://images.unsplash.com/photo-1510034696085-597d716bd162?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1757856116883-f734b686020a?auto=format&fit=crop&w=900&q=80',
+          description: 'Hand-lacquered ebonite barrel offering warm tactile grip and effortless capillary ink flow for extended correspondence.',
+          specs: {
+            'Material': 'Ebonite & Natural Lacquer',
+            'Nib Size': 'Medium-Fine (0.6mm)',
+            'Dimensions': '142 mm Capped · 24 g',
+            'Filling': 'Piston Converter Incl.'
+          }
+        },
+        {
+          id: 'pen-cedar-pencils',
+          title: 'Incense Cedar Drafting Pencils (Set of 6)',
+          category: 'Writing Instruments',
+          price: 22.00,
+          tag: '',
+          image: 'https://images.unsplash.com/photo-1670233170058-eba6cfd0a703?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1767216418928-0612ad847509?auto=format&fit=crop&w=900&q=80',
+          description: 'Matte-finished California incense cedar barrels paired with velvety Japanese 2B clay-graphite cores and replaceable erasers.',
+          specs: {
+            'Core Grade': '2B Smooth Graphite',
+            'Barrel': 'Hexagonal Raw Cedar',
+            'Dimensions': '177 mm Length',
+            'Origin': 'Tokyo Pencil Works'
+          }
+        },
+        {
+          id: 'acc-glass-inkwell',
+          title: 'Faceted Inkwell & Walnut Pen Rest',
+          category: 'Desk Accessories',
+          price: 42.00,
+          tag: 'Bestseller',
+          image: 'https://images.unsplash.com/photo-1670786056283-c5a3835ccc8e?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1757856116883-f734b686020a?auto=format&fit=crop&w=900&q=80',
+          description: 'Heavy-base flint glass inkwell filled with 40 ml of archival Walnut Sepia ink, paired with a hand-oiled walnut pen rest.',
+          specs: {
+            'Ink Volume': '40 ml Archival Dye',
+            'Material': 'Flint Glass & Walnut',
+            'Dimensions': '65 × 65 × 52 mm',
+            'Drying Time': '12 Seconds on 120 GSM'
+          }
+        },
+        {
+          id: 'acc-brass-clips',
+          title: 'Atelier Brass Page Anchors & Tray',
+          category: 'Desk Accessories',
+          price: 28.00,
+          tag: 'New',
+          image: 'https://images.unsplash.com/photo-1540921002383-b2a7ff6a716d?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1609338177258-4ce9fafc513e?auto=format&fit=crop&w=900&q=80',
+          description: 'Spring-tempered brass page clips engineered to hold thick notebooks open while sketching, accompanied by a brushed stone catchall.',
+          specs: {
+            'Material': 'Stamped Spring Brass',
+            'Set Includes': '3 Clips + Valet Dish',
+            'Dimensions': '45 mm Clip Span',
+            'Finish': 'Brushed Raw Brass'
+          }
+        },
+        {
+          id: 'pap-cotton-cards',
+          title: 'Deckle-Edge Cotton Correspondence Set',
+          category: 'Paper & Cards',
+          price: 26.00,
+          tag: 'Bestseller',
+          image: 'https://images.unsplash.com/photo-1769522870242-f834629f51ac?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1719563014708-85b38508ee52?auto=format&fit=crop&w=900&q=80',
+          description: '20 mould-made 100% cotton rag flat cards with four naturally torn deckle edges and matching tissue-lined envelopes.',
+          specs: {
+            'Paper Weight': '300 GSM Cotton Rag',
+            'Edge Style': '4-Side Deckle Edge',
+            'Dimensions': '105 × 148 mm (A6)',
+            'Contents': '20 Cards & 20 Envelopes'
+          }
+        },
+        {
+          id: 'pap-washi-ephemera',
+          title: 'Echizen Washi Writing Pad & Seals',
+          category: 'Paper & Cards',
+          price: 30.00,
+          tag: '',
+          image: 'https://images.unsplash.com/photo-1685478237837-0cdaeabd5285?auto=format&fit=crop&w=900&q=80',
+          hoverImage: 'https://images.unsplash.com/photo-1685478237298-ca6be0c00cc4?auto=format&fit=crop&w=900&q=80',
+          description: 'Translucent kozo fiber letter sheets accompanied by a removable ruled guide board and terracotta sealing wafers.',
+          specs: {
+            'Paper Weight': '85 GSM Kozo Washi',
+            'Ruling': 'Guide Sheet Included',
+            'Dimensions': '182 × 257 mm (B5)',
+            'Contents': '50 Sheets + 12 Seals'
+          }
+        }
+      ];
+
+      /* -------------------------------------------------------------------
+         2. APPLICATION STATE & PERSISTENCE
+      -------------------------------------------------------------------- */
+      const STORAGE_KEY = 'vellum_nib_cart_v1';
+      const FREE_SHIPPING_THRESHOLD = 75;
+      const SHIPPING_FEE = 8;
+
+      const state = {
+        activeCategory: 'All',
+        searchQuery: '',
+        cart: loadCart(),
+        modalProductId: null,
+        modalQty: 1,
+        bundleStep: 1,
+        bundleSelection: {
+          1: PRODUCTS.find(p => p.category === 'Notebooks').id,
+          2: PRODUCTS.find(p => p.category === 'Writing Instruments').id,
+          3: PRODUCTS.find(p => p.category === 'Desk Accessories').id,
+        }
+      };
+
+      function loadCart() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          return saved ? JSON.parse(saved) : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function saveCart() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state.cart));
+        } catch {
+          // Gracefully ignore storage quota issues
+        }
+      }
+
+      /* -------------------------------------------------------------------
+         3. DOM ELEMENT REFERENCES
+      -------------------------------------------------------------------- */
+      const els = {
+        productGrid: document.getElementById('product-grid'),
+        emptyCatalogState: document.getElementById('empty-catalog-state'),
+        productCountLabel: document.getElementById('product-count-label'),
+        resetFiltersBtn: document.getElementById('reset-filters-btn'),
+        emptyResetBtn: document.getElementById('empty-reset-btn'),
+        filterTabs: document.querySelectorAll('.filter-tab'),
+
+        // Search
+        searchToggleBtn: document.getElementById('search-toggle-btn'),
+        searchDrawer: document.getElementById('search-drawer'),
+        searchInput: document.getElementById('search-input'),
+        searchClearBtn: document.getElementById('search-clear-btn'),
+        searchCloseBtn: document.getElementById('search-close-btn'),
+
+        // Mobile Nav
+        mobileMenuBtn: document.getElementById('mobile-menu-btn'),
+        mobileMenu: document.getElementById('mobile-menu'),
+
+        // Bundle Builder
+        bundleStepBtns: document.querySelectorAll('.bundle-step-btn'),
+        bundleOptionsContainer: document.getElementById('bundle-options-container'),
+        bundlePrevBtn: document.getElementById('bundle-prev-btn'),
+        bundleNextBtn: document.getElementById('bundle-next-btn'),
+        bundleSummarySlots: document.getElementById('bundle-summary-slots'),
+        bundleOriginalPrice: document.getElementById('bundle-original-price'),
+        bundleDiscountAmount: document.getElementById('bundle-discount-amount'),
+        bundleFinalPrice: document.getElementById('bundle-final-price'),
+        addBundleBtn: document.getElementById('add-bundle-btn'),
+
+        // Quick-View Modal
+        productModal: document.getElementById('product-modal'),
+        modalBackdrop: document.getElementById('modal-backdrop'),
+        modalCloseBtn: document.getElementById('modal-close-btn'),
+        modalImg: document.getElementById('modal-img'),
+        modalCategory: document.getElementById('modal-category'),
+        modalTag: document.getElementById('modal-tag'),
+        modalTitle: document.getElementById('modal-title'),
+        modalPrice: document.getElementById('modal-price'),
+        modalDesc: document.getElementById('modal-desc'),
+        modalSpecs: document.getElementById('modal-specs'),
+        modalQtyDec: document.getElementById('modal-qty-dec'),
+        modalQtyInc: document.getElementById('modal-qty-inc'),
+        modalQtyVal: document.getElementById('modal-qty-val'),
+        modalAddBtn: document.getElementById('modal-add-btn'),
+
+        // Cart Drawer
+        cartOpenBtn: document.getElementById('cart-open-btn'),
+        cartCloseBtn: document.getElementById('cart-close-btn'),
+        cartDrawer: document.getElementById('cart-drawer'),
+        cartBackdrop: document.getElementById('cart-backdrop'),
+        cartPanel: document.getElementById('cart-panel'),
+        cartCountBadge: document.getElementById('cart-count-badge'),
+        cartItemSummary: document.getElementById('cart-item-summary'),
+        cartItemsContainer: document.getElementById('cart-items-container'),
+        cartEmptyState: document.getElementById('cart-empty-state'),
+        cartExploreBtn: document.getElementById('cart-explore-btn'),
+        cartFooter: document.getElementById('cart-footer'),
+        cartSubtotal: document.getElementById('cart-subtotal'),
+        cartShippingLabel: document.getElementById('cart-shipping-label'),
+        cartTotal: document.getElementById('cart-total'),
+        shippingProgressText: document.getElementById('shipping-progress-text'),
+        shippingProgressBar: document.getElementById('shipping-progress-bar'),
+        checkoutBtn: document.getElementById('checkout-btn'),
+
+        // Newsletter & Misc
+        newsletterForm: document.getElementById('newsletter-form'),
+        newsletterEmail: document.getElementById('newsletter-email'),
+        newsletterFeedback: document.getElementById('newsletter-feedback'),
+        toastContainer: document.getElementById('toast-container'),
+      };
+
+      /* -------------------------------------------------------------------
+         4. UTILITY HELPERS
+      -------------------------------------------------------------------- */
+      const formatMoney = (amount) => `$${Number(amount).toFixed(2)}`;
+
+      function refreshIcons() {
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
+      }
+
+      function showToast(title, subtitle = '', tone = 'ink') {
+        const toast = document.createElement('div');
+        const accentClass = tone === 'terracotta' ? 'border-l-terracotta' : 'border-l-ink';
+
+        toast.className = `pointer-events-auto flex w-80 items-start gap-3 border border-hairline border-l-4 ${accentClass} bg-alabaster p-4 shadow-lg animate-fade-up`;
+        toast.innerHTML = `
+          <div class="mt-0.5 text-terracotta">
+            <i data-lucide="check-circle-2" class="h-4 w-4"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-xs font-semibold uppercase tracking-wider text-ink">${title}</p>
+            ${subtitle ? `<p class="mt-1 text-xs text-muted">${subtitle}</p>` : ''}
+          </div>
+        `;
+        els.toastContainer.appendChild(toast);
+        refreshIcons();
+
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2', 'transition-all', 'duration-300');
+          setTimeout(() => toast.remove(), 300);
+        }, 3200);
+      }
+
+      /* -------------------------------------------------------------------
+         5. PRODUCT GRID & CATEGORY FILTERING
+      -------------------------------------------------------------------- */
+      function getFilteredProducts() {
+        const q = state.searchQuery.trim().toLowerCase();
+        return PRODUCTS.filter((product) => {
+          const matchesCategory = state.activeCategory === 'All' || product.category === state.activeCategory;
+          const matchesQuery =
+            !q ||
+            product.title.toLowerCase().includes(q) ||
+            product.category.toLowerCase().includes(q) ||
+            product.description.toLowerCase().includes(q) ||
+            Object.values(product.specs).some((s) => s.toLowerCase().includes(q));
+          return matchesCategory && matchesQuery;
+        });
+      }
+
+      function renderProductGrid() {
+        const filtered = getFilteredProducts();
+
+        // Update status count
+        const totalWord = filtered.length === 1 ? 'edition' : 'editions';
+        if (state.searchQuery.trim()) {
+          els.productCountLabel.textContent = `Showing ${filtered.length} ${totalWord} for “${state.searchQuery.trim()}”`;
+          els.resetFiltersBtn.classList.remove('hidden');
+        } else if (state.activeCategory !== 'All') {
+          els.productCountLabel.textContent = `Showing ${filtered.length} ${totalWord} in ${state.activeCategory}`;
+          els.resetFiltersBtn.classList.remove('hidden');
+        } else {
+          els.productCountLabel.textContent = `Showing ${filtered.length} artisan ${totalWord}`;
+          els.resetFiltersBtn.classList.add('hidden');
+        }
+
+        if (filtered.length === 0) {
+          els.productGrid.innerHTML = '';
+          els.emptyCatalogState.classList.remove('hidden');
+          refreshIcons();
+          return;
+        }
+
+        els.emptyCatalogState.classList.add('hidden');
+
+        els.productGrid.innerHTML = filtered
+          .map(
+            (product, idx) => `
+          <article class="group flex flex-col animate-fade-up" style="animation-delay: ${idx * 35}ms">
+            <!-- Image Container with Hover Crossfade & Quick-Add -->
+            <div class="relative aspect-[4/5] overflow-hidden border border-hairline bg-parchment">
+              <button type="button" data-quick-view="${product.id}" class="block h-full w-full text-left focus:outline-none" aria-label="View details for ${product.title}">
+                <img
+                  src="${product.image}"
+                  alt="${product.title}"
+                  loading="lazy"
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+                <img
+                  src="${product.hoverImage}"
+                  alt=""
+                  loading="lazy"
+                  aria-hidden="true"
+                  class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                />
+              </button>
+
+              ${
+                product.tag
+                  ? `<span class="pointer-events-none absolute left-3 top-3 border border-hairline bg-alabaster/95 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink">${product.tag}</span>`
+                  : ''
+              }
+
+              <!-- Floating Quick-Add Bar on Hover (Always accessible on touch) -->
+              <div class="absolute inset-x-3 bottom-3 flex items-center gap-2 transition-all duration-300 lg:translate-y-2 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
+                <button
+                  type="button"
+                  data-quick-add="${product.id}"
+                  class="flex flex-1 items-center justify-center gap-1.5 border border-hairline bg-alabaster/95 px-3 py-2.5 text-[11px] font-medium uppercase tracking-[0.14em] text-ink backdrop-blur-sm transition-colors hover:bg-ink hover:text-alabaster focus:outline-none focus:ring-2 focus:ring-terracotta"
+                >
+                  <i data-lucide="plus" class="h-3.5 w-3.5"></i>
+                  <span>Quick Add</span>
+                </button>
+                <button
+                  type="button"
+                  data-quick-view="${product.id}"
+                  class="flex h-[38px] w-[38px] items-center justify-center border border-hairline bg-alabaster/95 text-ink backdrop-blur-sm transition-colors hover:border-ink hover:bg-parchment focus:outline-none focus:ring-2 focus:ring-terracotta"
+                  aria-label="Quick view ${product.title}"
+                >
+                  <i data-lucide="eye" class="h-4 w-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card Metadata -->
+            <div class="mt-4 flex flex-1 flex-col justify-between">
+              <div>
+                <p class="text-[10px] font-medium uppercase tracking-[0.18em] text-muted">${product.category}</p>
+                <h3 class="mt-1 font-serif text-xl font-medium leading-snug text-ink">
+                  <button type="button" data-quick-view="${product.id}" class="text-left transition-colors hover:text-terracotta focus:outline-none">
+                    ${product.title}
+                  </button>
+                </h3>
+              </div>
+              <div class="mt-2 flex items-center justify-between border-t border-hairline/70 pt-2">
+                <span class="text-sm font-medium text-ink">${formatMoney(product.price)}</span>
+                <span class="text-[11px] text-muted">${Object.values(product.specs)[0]}</span>
+              </div>
+            </div>
+          </article>
+        `
+          )
+          .join('');
+
+        refreshIcons();
+      }
+
+      function setActiveCategory(category) {
+        state.activeCategory = category;
+        els.filterTabs.forEach((tab) => {
+          const isActive = tab.dataset.category === category;
+          tab.setAttribute('aria-selected', String(isActive));
+          if (isActive) {
+            tab.classList.remove('border-hairline', 'bg-parchment/60', 'text-ink/80');
+            tab.classList.add('border-ink', 'bg-ink', 'text-alabaster');
+          } else {
+            tab.classList.remove('border-ink', 'bg-ink', 'text-alabaster');
+            tab.classList.add('border-hairline', 'bg-parchment/60', 'text-ink/80');
+          }
+        });
+        renderProductGrid();
+      }
+
+      /* -------------------------------------------------------------------
+         6. INTERACTIVE "BUILD YOUR DESK SET" BUNDLE BUILDER
+      -------------------------------------------------------------------- */
+      const BUNDLE_STEP_CATEGORIES = {
+        1: { category: 'Notebooks', label: 'Select Your Foundation Notebook' },
+        2: { category: 'Writing Instruments', label: 'Select Your Writing Instrument' },
+        3: { category: 'Desk Accessories', label: 'Select Your Desk Companion' },
+      };
+
+      function renderBundleBuilder() {
+        const stepConfig = BUNDLE_STEP_CATEGORIES[state.bundleStep];
+        const stepProducts = PRODUCTS.filter((p) => p.category === stepConfig.category);
+        const selectedId = state.bundleSelection[state.bundleStep];
+
+        // Update Step Pill Styling
+        els.bundleStepBtns.forEach((btn) => {
+          const stepNum = Number(btn.dataset.bundleStep);
+          const badge = btn.querySelector('span');
+          if (stepNum === state.bundleStep) {
+            btn.classList.remove('border-hairline', 'bg-alabaster/60');
+            btn.classList.add('border-ink', 'bg-alabaster');
+            badge.classList.remove('border', 'border-hairline', 'bg-parchment', 'text-ink');
+            badge.classList.add('bg-ink', 'text-alabaster');
+          } else {
+            btn.classList.remove('border-ink', 'bg-alabaster');
+            btn.classList.add('border-hairline', 'bg-alabaster/60');
+            badge.classList.remove('bg-ink', 'text-alabaster');
+            badge.classList.add('border', 'border-hairline', 'bg-parchment', 'text-ink');
+          }
+        });
+
+        // Prev/Next Button States
+        els.bundlePrevBtn.disabled = state.bundleStep === 1;
+        els.bundleNextBtn.classList.toggle('hidden', state.bundleStep === 3);
+
+        // Render Selectable Option Cards
+        els.bundleOptionsContainer.innerHTML = `
+          <div class="mb-4 flex items-center justify-between">
+            <h3 class="font-serif text-2xl font-medium text-ink">${stepConfig.label}</h3>
+            <span class="text-xs text-muted">Step ${state.bundleStep} of 3</span>
+          </div>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            ${stepProducts
+              .map((item) => {
+                const isSelected = item.id === selectedId;
+                return `
+                <button
+                  type="button"
+                  data-bundle-pick="${item.id}"
+                  class="group flex flex-col overflow-hidden border text-left transition-all focus:outline-none focus:ring-2 focus:ring-terracotta ${
+                    isSelected
+                      ? 'border-terracotta bg-alabaster ring-1 ring-terracotta'
+                      : 'border-hairline bg-alabaster/80 hover:border-ink/40'
+                  }"
+                >
+                  <div class="relative aspect-[4/3] w-full overflow-hidden bg-parchment">
+                    <img src="${item.image}" alt="${item.title}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    ${
+                      isSelected
+                        ? `<span class="absolute right-2.5 top-2.5 flex h-6 w-6 items-center justify-center rounded-full bg-terracotta text-alabaster shadow-sm"><i data-lucide="check" class="h-3.5 w-3.5"></i></span>`
+                        : ''
+                    }
+                  </div>
+                  <div class="flex flex-1 flex-col justify-between p-4">
+                    <div>
+                      <p class="font-serif text-lg font-medium leading-snug text-ink">${item.title}</p>
+                      <p class="mt-1 text-xs text-muted">${Object.values(item.specs)[0]}</p>
+                    </div>
+                    <p class="mt-3 text-sm font-medium text-ink">${formatMoney(item.price)}</p>
+                  </div>
+                </button>
+              `;
+              })
+              .join('')}
+          </div>
+        `;
+
+        // Render Real-Time Summary Panel
+        const chosenItems = [1, 2, 3].map((step) => ({
+          step,
+          category: BUNDLE_STEP_CATEGORIES[step].category,
+          product: PRODUCTS.find((p) => p.id === state.bundleSelection[step]),
+        }));
+
+        els.bundleSummarySlots.innerHTML = chosenItems
+          .map(
+            ({ step, category, product }) => `
+          <div class="flex items-center gap-3.5 py-3">
+            <img src="${product.image}" alt="${product.title}" class="h-14 w-14 shrink-0 border border-hairline object-cover" />
+            <div class="min-w-0 flex-1">
+              <p class="text-[10px] font-medium uppercase tracking-[0.16em] text-muted">0${step} · ${category}</p>
+              <p class="truncate font-serif text-base font-medium text-ink">${product.title}</p>
+              <button type="button" data-jump-step="${step}" class="mt-0.5 text-[11px] font-medium text-terracotta hover:underline">Change</button>
+            </div>
+            <span class="text-xs font-medium text-ink">${formatMoney(product.price)}</span>
+          </div>
+        `
+          )
+          .join('');
+
+        // Calculate 15% Bundle Discount
+        const originalSum = chosenItems.reduce((sum, entry) => sum + entry.product.price, 0);
+        const discount = originalSum * 0.15;
+        const finalPrice = originalSum - discount;
+
+        els.bundleOriginalPrice.textContent = formatMoney(originalSum);
+        els.bundleDiscountAmount.textContent = `-${formatMoney(discount)}`;
+        els.bundleFinalPrice.textContent = formatMoney(finalPrice);
+
+        refreshIcons();
+      }
+
+      /* -------------------------------------------------------------------
+         7. QUICK-VIEW PRODUCT MODAL
+      -------------------------------------------------------------------- */
+      function openProductModal(productId) {
+        const product = PRODUCTS.find((p) => p.id === productId);
+        if (!product) return;
+
+        state.modalProductId = productId;
+        state.modalQty = 1;
+
+        els.modalImg.src = product.image;
+        els.modalImg.alt = product.title;
+        els.modalCategory.textContent = product.category;
+        els.modalTitle.textContent = product.title;
+        els.modalPrice.textContent = formatMoney(product.price);
+        els.modalDesc.textContent = product.description;
+        els.modalQtyVal.textContent = '1';
+
+        if (product.tag) {
+          els.modalTag.textContent = product.tag;
+          els.modalTag.classList.remove('hidden');
+        } else {
+          els.modalTag.classList.add('hidden');
+        }
+
+        els.modalSpecs.innerHTML = Object.entries(product.specs)
+          .map(
+            ([label, value]) => `
+          <div class="border-b border-hairline/70 pb-2">
+            <dt class="text-[10px] uppercase tracking-[0.14em] text-muted">${label}</dt>
+            <dd class="mt-0.5 font-medium text-ink">${value}</dd>
+          </div>
+        `
+          )
+          .join('');
+
+        els.productModal.classList.remove('hidden');
+        els.productModal.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+        refreshIcons();
+      }
+
+      function closeProductModal() {
+        els.productModal.classList.add('hidden');
+        els.productModal.classList.remove('flex');
+        document.body.classList.remove('overflow-hidden');
+        state.modalProductId = null;
+      }
+
+      /* -------------------------------------------------------------------
+         8. SHOPPING CART & SLIDE-OVER DRAWER
+      -------------------------------------------------------------------- */
+      function addToCart(item, qty = 1) {
+        const existing = state.cart.find((c) => c.id === item.id);
+        if (existing) {
+          existing.qty += qty;
+        } else {
+          state.cart.push({ ...item, qty });
+        }
+        saveCart();
+        renderCart();
+        showToast('Added to Writing Bag', `${qty} × ${item.title}`, 'terracotta');
+      }
+
+      function updateCartQty(id, delta) {
+        const index = state.cart.findIndex((c) => c.id === id);
+        if (index === -1) return;
+
+        state.cart[index].qty += delta;
+        if (state.cart[index].qty <= 0) {
+          state.cart.splice(index, 1);
+        }
+        saveCart();
+        renderCart();
+      }
+
+      function removeCartItem(id) {
+        state.cart = state.cart.filter((c) => c.id !== id);
+        saveCart();
+        renderCart();
+      }
+
+      function renderCart() {
+        const totalCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
+        const subtotal = state.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+        // Navbar badge
+        els.cartCountBadge.textContent = totalCount;
+        els.cartItemSummary.textContent = `${totalCount} ${totalCount === 1 ? 'item' : 'items'} selected`;
+
+        // Free shipping progress ($75)
+        const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
+        const progressPct = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
+        els.shippingProgressBar.style.width = `${progressPct}%`;
+
+        if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+          els.shippingProgressText.innerHTML = `<span class="font-semibold text-terracotta">Complimentary archival shipping unlocked.</span>`;
+        } else {
+          els.shippingProgressText.innerHTML = `Add <span class="font-semibold text-ink">${formatMoney(remaining)}</span> more for complimentary archival shipping.`;
+        }
+
+        // Empty vs Populated View
+        if (state.cart.length === 0) {
+          els.cartItemsContainer.classList.add('hidden');
+          els.cartFooter.classList.add('hidden');
+          els.cartEmptyState.classList.remove('hidden');
+          els.cartEmptyState.classList.add('flex');
+          refreshIcons();
+          return;
+        }
+
+        els.cartEmptyState.classList.add('hidden');
+        els.cartEmptyState.classList.remove('flex');
+        els.cartItemsContainer.classList.remove('hidden');
+        els.cartFooter.classList.remove('hidden');
+
+        els.cartItemsContainer.innerHTML = state.cart
+          .map(
+            (item) => `
+          <div class="flex gap-4 border-b border-hairline py-4 last:border-b-0">
+            <img src="${item.image}" alt="${item.title}" class="h-20 w-16 shrink-0 border border-hairline bg-parchment object-cover" />
+            <div class="flex min-w-0 flex-1 flex-col justify-between">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <p class="text-[10px] font-medium uppercase tracking-[0.14em] text-muted">${item.category}</p>
+                  <h4 class="truncate font-serif text-lg font-medium text-ink">${item.title}</h4>
+                  ${item.bundleDetails ? `<p class="mt-0.5 text-[11px] leading-snug text-muted">${item.bundleDetails}</p>` : ''}
+                </div>
+                <button type="button" data-cart-remove="${item.id}" class="p-1 text-muted hover:text-terracotta" aria-label="Remove ${item.title}">
+                  <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
+                </button>
+              </div>
+
+              <div class="mt-3 flex items-center justify-between">
+                <div class="flex items-center border border-hairline bg-parchment/40">
+                  <button type="button" data-cart-dec="${item.id}" class="px-2 py-1 text-ink hover:bg-parchment" aria-label="Decrease quantity of ${item.title}">
+                    <i data-lucide="minus" class="h-3 w-3"></i>
+                  </button>
+                  <span class="w-7 text-center text-xs font-medium text-ink">${item.qty}</span>
+                  <button type="button" data-cart-inc="${item.id}" class="px-2 py-1 text-ink hover:bg-parchment" aria-label="Increase quantity of ${item.title}">
+                    <i data-lucide="plus" class="h-3 w-3"></i>
+                  </button>
+                </div>
+                <span class="text-sm font-medium text-ink">${formatMoney(item.price * item.qty)}</span>
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join('');
+
+        const shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+        els.cartSubtotal.textContent = formatMoney(subtotal);
+        els.cartShippingLabel.textContent = shippingCost === 0 ? 'Complimentary' : formatMoney(shippingCost);
+        els.cartTotal.textContent = formatMoney(subtotal + shippingCost);
+
+        refreshIcons();
+      }
+
+      function openCartDrawer() {
+        els.cartDrawer.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+        requestAnimationFrame(() => {
+          els.cartBackdrop.classList.remove('opacity-0');
+          els.cartPanel.classList.remove('translate-x-full');
+        });
+      }
+
+      function closeCartDrawer() {
+        els.cartBackdrop.classList.add('opacity-0');
+        els.cartPanel.classList.add('translate-x-full');
+        setTimeout(() => {
+          els.cartDrawer.classList.add('hidden');
+          if (!state.modalProductId) {
+            document.body.classList.remove('overflow-hidden');
+          }
+        }, 300);
+      }
+
+      /* -------------------------------------------------------------------
+         9. EVENT LISTENERS & DELEGATION
+      -------------------------------------------------------------------- */
+      // Category Filter Tabs
+      els.filterTabs.forEach((tab) => {
+        tab.addEventListener('click', () => setActiveCategory(tab.dataset.category));
+      });
+
+      // Footer category shortcuts
+      document.querySelectorAll('.footer-cat-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          setActiveCategory(link.dataset.footerCat);
+        });
+      });
+
+      // Reset Filters
+      function resetCatalogFilters() {
+        state.searchQuery = '';
+        els.searchInput.value = '';
+        els.searchClearBtn.classList.add('hidden');
+        setActiveCategory('All');
+      }
+      els.resetFiltersBtn.addEventListener('click', resetCatalogFilters);
+      els.emptyResetBtn.addEventListener('click', resetCatalogFilters);
+
+      // Search Drawer Toggle & Live Input
+      els.searchToggleBtn.addEventListener('click', () => {
+        const isHidden = els.searchDrawer.classList.contains('hidden');
+        els.searchDrawer.classList.toggle('hidden', !isHidden);
+        els.searchToggleBtn.setAttribute('aria-expanded', String(isHidden));
+        if (isHidden) {
+          els.searchInput.focus();
+        }
+      });
+
+      els.searchCloseBtn.addEventListener('click', () => {
+        els.searchDrawer.classList.add('hidden');
+        els.searchToggleBtn.setAttribute('aria-expanded', 'false');
+      });
+
+      els.searchInput.addEventListener('input', (e) => {
+        state.searchQuery = e.target.value;
+        els.searchClearBtn.classList.toggle('hidden', !state.searchQuery);
+        renderProductGrid();
+        if (state.searchQuery.trim().length === 1) {
+          document.getElementById('shop').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+
+      els.searchClearBtn.addEventListener('click', () => {
+        state.searchQuery = '';
+        els.searchInput.value = '';
+        els.searchClearBtn.classList.add('hidden');
+        renderProductGrid();
+        els.searchInput.focus();
+      });
+
+      // Mobile Hamburger Menu
+      els.mobileMenuBtn.addEventListener('click', () => {
+        const isOpen = !els.mobileMenu.classList.contains('hidden');
+        els.mobileMenu.classList.toggle('hidden', isOpen);
+        els.mobileMenuBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          els.mobileMenu.classList.add('hidden');
+          els.mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // Product Grid Delegation (Quick-Add & Quick-View)
+      els.productGrid.addEventListener('click', (e) => {
+        const quickAddBtn = e.target.closest('[data-quick-add]');
+        if (quickAddBtn) {
+          const product = PRODUCTS.find((p) => p.id === quickAddBtn.dataset.quickAdd);
+          if (product) addToCart(product, 1);
+          return;
+        }
+
+        const quickViewBtn = e.target.closest('[data-quick-view]');
+        if (quickViewBtn) {
+          openProductModal(quickViewBtn.dataset.quickView);
+        }
+      });
+
+      // Quick-View Modal Controls
+      els.modalCloseBtn.addEventListener('click', closeProductModal);
+      els.modalBackdrop.addEventListener('click', closeProductModal);
+
+      els.modalQtyDec.addEventListener('click', () => {
+        if (state.modalQty > 1) {
+          state.modalQty -= 1;
+          els.modalQtyVal.textContent = String(state.modalQty);
+        }
+      });
+
+      els.modalQtyInc.addEventListener('click', () => {
+        state.modalQty += 1;
+        els.modalQtyVal.textContent = String(state.modalQty);
+      });
+
+      els.modalAddBtn.addEventListener('click', () => {
+        const product = PRODUCTS.find((p) => p.id === state.modalProductId);
+        if (product) {
+          addToCart(product, state.modalQty);
+          closeProductModal();
+        }
+      });
+
+      // Bundle Builder Listeners
+      els.bundleStepBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.bundleStep = Number(btn.dataset.bundleStep);
+          renderBundleBuilder();
+        });
+      });
+
+      els.bundlePrevBtn.addEventListener('click', () => {
+        if (state.bundleStep > 1) {
+          state.bundleStep -= 1;
+          renderBundleBuilder();
+        }
+      });
+
+      els.bundleNextBtn.addEventListener('click', () => {
+        if (state.bundleStep < 3) {
+          state.bundleStep += 1;
+          renderBundleBuilder();
+        }
+      });
+
+      els.bundleOptionsContainer.addEventListener('click', (e) => {
+        const pickBtn = e.target.closest('[data-bundle-pick]');
+        if (!pickBtn) return;
+        state.bundleSelection[state.bundleStep] = pickBtn.dataset.bundlePick;
+        renderBundleBuilder();
+      });
+
+      els.bundleSummarySlots.addEventListener('click', (e) => {
+        const jumpBtn = e.target.closest('[data-jump-step]');
+        if (!jumpBtn) return;
+        state.bundleStep = Number(jumpBtn.dataset.jumpStep);
+        renderBundleBuilder();
+      });
+
+      els.addBundleBtn.addEventListener('click', () => {
+        const notebook = PRODUCTS.find((p) => p.id === state.bundleSelection[1]);
+        const pen = PRODUCTS.find((p) => p.id === state.bundleSelection[2]);
+        const accessory = PRODUCTS.find((p) => p.id === state.bundleSelection[3]);
+
+        const rawTotal = notebook.price + pen.price + accessory.price;
+        const discountedPrice = Number((rawTotal * 0.85).toFixed(2));
+        const bundleId = `bundle-${notebook.id}-${pen.id}-${accessory.id}`;
+
+        addToCart(
+          {
+            id: bundleId,
+            title: 'Bespoke 3-Piece Desk Set',
+            category: 'Custom Set · 15% Off',
+            price: discountedPrice,
+            image: notebook.image,
+            bundleDetails: `${notebook.title} + ${pen.title} + ${accessory.title}`,
+          },
+          1
+        );
+        openCartDrawer();
+      });
+
+      // Cart Drawer Controls & Item Delegation
+      els.cartOpenBtn.addEventListener('click', openCartDrawer);
+      els.cartCloseBtn.addEventListener('click', closeCartDrawer);
+      els.cartBackdrop.addEventListener('click', closeCartDrawer);
+      els.cartExploreBtn.addEventListener('click', () => {
+        closeCartDrawer();
+        document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      els.cartItemsContainer.addEventListener('click', (e) => {
+        const decBtn = e.target.closest('[data-cart-dec]');
+        if (decBtn) return updateCartQty(decBtn.dataset.cartDec, -1);
+
+        const incBtn = e.target.closest('[data-cart-inc]');
+        if (incBtn) return updateCartQty(incBtn.dataset.cartInc, 1);
+
+        const remBtn = e.target.closest('[data-cart-remove]');
+        if (remBtn) return removeCartItem(remBtn.dataset.cartRemove);
+      });
+
+      // Simulated Checkout Confirmation
+      els.checkoutBtn.addEventListener('click', () => {
+        if (state.cart.length === 0) return;
+        const orderRef = `VN-${Math.floor(100000 + Math.random() * 900000)}`;
+        state.cart = [];
+        saveCart();
+        renderCart();
+        closeCartDrawer();
+        showToast(
+          `Order ${orderRef} Confirmed`,
+          'Thank you for your patronage. Your archival parcel is being prepared in our atelier.',
+          'terracotta'
+        );
+      });
+
+      // Newsletter Signup Validation
+      els.newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = els.newsletterEmail.value.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+          els.newsletterFeedback.textContent = 'Please enter a valid correspondence email address.';
+          els.newsletterFeedback.className = 'mt-2.5 min-h-[18px] text-xs font-medium text-terracotta';
+          els.newsletterEmail.focus();
+          return;
+        }
+
+        els.newsletterFeedback.textContent = `Welcome to the Vellum & Nib registry. A 10% welcome code has been dispatched to ${email}.`;
+        els.newsletterFeedback.className = 'mt-2.5 min-h-[18px] text-xs font-medium text-ink';
+        els.newsletterEmail.value = '';
+        showToast('Atelier Dispatch Subscribed', 'Check your inbox for our seasonal paper sample guide.');
+      });
+
+      // Global Escape Key Handler for Modals & Drawers
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (!els.productModal.classList.contains('hidden')) closeProductModal();
+        if (!els.cartDrawer.classList.contains('hidden')) closeCartDrawer();
+        if (!els.searchDrawer.classList.contains('hidden')) {
+          els.searchDrawer.classList.add('hidden');
+          els.searchToggleBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      /* -------------------------------------------------------------------
+         10. INITIALIZE STOREFRONT
+      -------------------------------------------------------------------- */
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      renderProductGrid();
+      renderBundleBuilder();
+      renderCart();
+      refreshIcons();
+    })();
+  </script>
+</body>
+</html>
